@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>JPG to PDF Converter</title>
+</head>
+<body style="font-family:sans-serif; text-align:center; padding:50px;">
+  <h1>JPG to PDF Converter</h1>
+  <input type="file" id="imageInput" accept="image/jpeg"><br><br>
+  <button onclick="convertToPDF()">Convert to PDF</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    async function convertToPDF() {
+      const { jsPDF } = window.jspdf;
+      const file = document.getElementById('imageInput').files[0];
+      if (!file) {
+        alert("Please select a JPG image first.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const imgData = event.target.result;
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'JPEG', 10, 10, 180, 160);
+        pdf.save("converted.pdf");
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
